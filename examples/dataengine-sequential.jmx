@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<jmeterTestPlan version="1.2" properties="5.0" jmeter="5.6.3">
+  <hashTree>
+    <TestPlan guiclass="TestPlanGui" testclass="TestPlan" testname="DataEngine sequential execution" enabled="true">
+      <stringProp name="TestPlan.comments">Set workbook, environment, testcases, rows, and templates in the sampler.</stringProp>
+      <boolProp name="TestPlan.functional_mode">false</boolProp><boolProp name="TestPlan.serialize_threadgroups">true</boolProp>
+      <elementProp name="TestPlan.user_defined_variables" elementType="Arguments" guiclass="ArgumentsPanel" testclass="Arguments" testname="User Defined Variables" enabled="true"><collectionProp name="Arguments.arguments"/></elementProp>
+      <stringProp name="TestPlan.user_define_classpath"></stringProp>
+    </TestPlan>
+    <hashTree>
+      <ThreadGroup guiclass="ThreadGroupGui" testclass="ThreadGroup" testname="One sequential thread" enabled="true">
+        <stringProp name="ThreadGroup.on_sample_error">continue</stringProp>
+        <elementProp name="ThreadGroup.main_controller" elementType="LoopController" guiclass="LoopControlPanel" testclass="LoopController" testname="Loop Controller" enabled="true"><boolProp name="LoopController.continue_forever">false</boolProp><stringProp name="LoopController.loops">1</stringProp></elementProp>
+        <stringProp name="ThreadGroup.num_threads">1</stringProp><stringProp name="ThreadGroup.ramp_time">0</stringProp><boolProp name="ThreadGroup.scheduler">false</boolProp><stringProp name="ThreadGroup.duration"></stringProp><stringProp name="ThreadGroup.delay"></stringProp>
+      </ThreadGroup>
+      <hashTree>
+        <com.razukalias.jmeter.dataengine.DataEngineSampler guiclass="com.razukalias.jmeter.dataengine.DataEngineSamplerGui" testclass="com.razukalias.jmeter.dataengine.DataEngineSampler" testname="DataEngine Excel Sequential" enabled="true">
+          <stringProp name="workbook">/path/to/Instances/MyInstance/MyInstance.xlsx</stringProp>
+          <stringProp name="instance">MyInstance</stringProp><stringProp name="environment">QA</stringProp><stringProp name="testcases">1,2</stringProp><stringProp name="rows">*</stringProp><stringProp name="templates">../../Templates</stringProp>
+        </com.razukalias.jmeter.dataengine.DataEngineSampler><hashTree/>
+      </hashTree>
+    </hashTree>
+  </hashTree>
+</jmeterTestPlan>
