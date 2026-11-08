@@ -36,7 +36,8 @@ public final class WorkbookReader {
             for (Row r:dataRows(request)) {
                 if(blank(r))continue; WorkbookModel.DataRow d=new WorkbookModel.DataRow();
                 d.testcaseIndex=integer(rh,r,"testcaseindex",r.getRowNum()); d.testcase=text(rh,r,"testcase"); d.dataId=text(rh,r,"dataid"); d.excelRow=r.getRowNum()+1;
-                for(Map.Entry<String,Integer> e:rh.entrySet()) { String k=e.getKey(); if(Set.of("testcaseindex","testcase","dataid","dontrun").contains(k))continue; String value=text(rh,r,k); d.variables.put(k,value); int dot=k.indexOf('.'); if(dot>0)d.variables.putIfAbsent(k.substring(dot+1),value); }
+                d.dontrun.addAll(Arrays.stream(split(text(rh,r,"dontrun"))).map(String::trim).filter(x->!x.isBlank()).map(x->x.toLowerCase(Locale.ROOT)).toList());
+                for(Map.Entry<String,Integer> e:rh.entrySet()) { String k=e.getKey(); if(Set.of("testcaseindex","testcase","dataid","dontrun").contains(k))continue; int dot=k.indexOf('.'); if(dot>0 && d.dontrun.contains(k.substring(0,dot).toLowerCase(Locale.ROOT))) continue; String value=text(rh,r,k); d.variables.put(k,value); if(dot>0)d.variables.putIfAbsent(k.substring(dot+1),value); }
                 model.rows.put(d.testcaseIndex+"|"+d.dataId,d);
             }
             Sheet response=sheet(wb,"response"); Map<String,Integer> ah=headers(response);

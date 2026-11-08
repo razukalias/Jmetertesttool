@@ -36,6 +36,8 @@ public final class WorkbookModel {
         public int excelRow;
         public String testcase;
         public String dataId;
+        /** Step names listed in request.dontrun for this row. */
+        public final Set<String> dontrun = new LinkedHashSet<>();
         public final Map<String,String> variables = new LinkedHashMap<>();
     }
     public static final class Assertion {

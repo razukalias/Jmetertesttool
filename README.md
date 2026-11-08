@@ -19,6 +19,7 @@ The JMeter GUI sampler has a **Discover / select workbook items** button. It rea
 - A transport or template failure stops the entire JMeter test.
 - Assertion failures are added as child results and execution continues to the next step.
 - Wait values are handled inside the sequential step loop.
+- A `request`-sheet `dontrun` cell is a comma- or pipe-separated list of step names for that row, for example `Auth,Upload`. Only those named steps are skipped; the row and all other steps still execute. Variables whose request header starts with a skipped step name (such as `Upload.fileId`) are not bound, and response-sheet assertions for skipped steps are not evaluated.
 - `SCRIPT` and `GROOVY` steps execute a Groovy template with the request-row variables bound as Groovy variables; the returned value is exposed as `stepName.result` for later resolution.
 
 ## Supported first-pass syntax

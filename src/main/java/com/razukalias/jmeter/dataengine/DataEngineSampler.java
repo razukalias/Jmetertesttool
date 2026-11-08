@@ -36,7 +36,7 @@ public final class DataEngineSampler extends AbstractSampler {
             }
             parent.setSuccessful(true); parent.setResponseMessage("Executed "+count+" testcase-row item(s) sequentially");
         } catch(Exception e) { parent.setSuccessful(false); parent.setResponseMessage(String.valueOf(e.getMessage())); parent.setResponseData(String.valueOf(e),"UTF-8"); stopEntireTest(); }
-        parent.sampleEnd(); return parent;
+        return parent;
     }
 
     private SampleResult runRow(WorkbookModel model,WorkbookModel.Testcase tc,WorkbookModel.DataRow row,String env,Path root)throws Exception {
@@ -44,6 +44,7 @@ public final class DataEngineSampler extends AbstractSampler {
         Map<String,String> vars=new LinkedHashMap<>(row.variables); vars.put("env",env); Map<String,String> requests=new HashMap<>(), responses=new HashMap<>(); TokenResolver resolver=new TokenResolver(); boolean rowSuccessful=true;
         for(WorkbookModel.Step s:tc.steps) {
             if(!s.enabled || (!s.environments.isEmpty()&&!s.environments.stream().anyMatch(x->x.trim().equalsIgnoreCase(env)))) continue;
+            if(row.dontrun.contains(s.name.trim().toLowerCase(Locale.ROOT))) continue;
             if(s.waitMs>0) Thread.sleep(s.waitMs); if(s.type.equalsIgnoreCase("WAIT")) continue;
             SampleResult step=new SampleResult(); step.setSampleLabel(tc.name+" / Row "+row.excelRow+" / "+s.name); step.sampleStart();
             try {
